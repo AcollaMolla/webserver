@@ -35,11 +35,14 @@ app.get('/', (req,res) => {
     res.send("hej");
 });
 
-app.get('/settings', (req, res) => {
-    res.send(settings);
+app.get('/settings/:id', (req, res) => {
+    getFromDb("userSettings", req.params.id, function(callback){
+        console.log(callback);
+        res.send(callback);
+    });
 });
 
-app.post('/settings', (req, res) => {
+app.post('/settings/:id', (req, res) => {
     settings = [
         {
             backgroundColor : req.body.backgroundColor,
@@ -47,11 +50,15 @@ app.post('/settings', (req, res) => {
             url: req.body.url
         }
     ]
-    res.send(settings);
+    console.log("ID = " + req.params.id);
+    updateDbRecord("userSettings", req.params.id, settings, function(callback){
+        console.log(callback);
+        res.send(callback);
+    });
 });
 
 app.get('/stocks', (req, res) => {
-    getFromDb("stocks", function(callback){
+    getFromDb("stocks", null, function(callback){
         res.send(callback);
     })
 });
@@ -67,7 +74,7 @@ app.post('/stocks', (req, res) => {
 });
 
 app.get('/fishing', (req, res) => {
-    getFromDb("fishing", function(callback){
+    getFromDb("fishing", null, function(callback){
         res.send(callback);
     })
 });
@@ -99,14 +106,50 @@ function postToDb(record, collection){
     });
  }
 
-function getFromDb(collection, callback){
-    MongoClient.connect(url, function(err, db){
-        var dbo = db.db("db");
-        dbo.collection(collection).find({}).toArray(function(err, result){
-            if(err)throw err;
-            console.log("Fetched from db");
-            callback(result);
-            db.close();
+function getFromDb(collection, param, callback){
+    console.log("Param = " + param);
+    if(param === null || typeof(param) === 'undefined'){
+        MongoClient.connect(url, function(err, db){
+            var dbo = db.db("db");
+            dbo.collection(collection).find({}).toArray(function(err, result){
+                if(err)throw err;
+                console.log("Fetched from db");
+                callback(result);
+                db.close();
+            });
         });
-    });
+    }
+    else{
+        MongoClient.connect(url, function(err, db){
+            var dbo = db.db("db");
+            dbo.collection(collection).find({"userId" : param}).toArray(function(err, result){
+                if(err)throw err;
+                console.log("Fetched from db");
+                callback(result);
+                db.close();
+            });
+        });
+    }
+ }
+
+ function updateDbRecord(collection, param, record, callback){
+     console.log("Param = " + param);
+     console.log("Bg color: " + record[0].backgroundColor);
+     MongoClient.connect(url, function(err, db){
+         var dbo = db.db("db");
+         dbo.collection(collection).updateOne(
+            {"userId": param}, 
+            {
+                $set: {
+                        backgroundColor : record[0].backgroundColor,
+                        isImage : record[0].isImage,
+                        url : record[0].url
+                      }
+            },
+            {
+                upsert:true
+            }
+         );
+        db.close();
+     });
  }
