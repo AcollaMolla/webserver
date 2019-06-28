@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-
 var mongo = require('mongodb');
+
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/db";
 
@@ -28,15 +28,6 @@ let settings = [
         "backgroundColor" : "#282c34",
         "isImage" : "false",
         "url" : "null"
-    }
-]
-
-let fish = [
-    {
-        "species" : "Abborre",
-        "catchDate" : "2019-06-06",
-        "length" : "15",
-        "weight" : "0.5"
     }
 ]
 
