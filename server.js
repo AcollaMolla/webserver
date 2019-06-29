@@ -31,6 +31,12 @@ let settings = [
     }
 ]
 
+const images = [
+    {
+        original: 'http://lorempixel.com/1000/600/nature/1/'
+    }
+]
+
 app.get('/', (req,res) => {
     res.send("hej");
 });
@@ -89,6 +95,10 @@ app.post('/fishing', (req, res) => {
     postToDb(fish, "fishing");
     res.send(fish);
 })
+
+app.get('/images', (req, res) => {
+    res.send(images);
+});
 
 var server = app.listen(8081, function () {
     console.log("Example app listening at localhost:8081");
