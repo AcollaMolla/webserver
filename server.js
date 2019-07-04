@@ -42,9 +42,9 @@ let settings = [
 ]
 
 const images = [
-    {
-        original: 'http://lorempixel.com/1000/600/nature/1/'
-    }
+        {original: 'http://lorempixel.com/1000/600/nature/1/'},
+        {original: 'http://lorempixel.com/1000/600/nature/2/'},
+        {original: 'http://lorempixel.com/1000/600/nature/3/'}
 ]
 
 app.get('/', (req,res) => {
@@ -107,7 +107,7 @@ app.post('/fishing', (req, res) => {
 })
 */
 app.get('/images', (req, res) => {
-    res.send(images);
+    res.sendFile(__dirname + '/uploads/images/test.jpg');
 });
 
 app.post('/images', (req, res) => {
