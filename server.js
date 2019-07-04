@@ -46,11 +46,10 @@ fs.readdir(imageDirectoryPath, function(err, files){
         console.log("Some error");
     }
     files.forEach(function(file){
-        var fileObject = [
+        var fileObject =
             {
                 original: "http://localhost:8081/images/" + file
             }
-        ]
         fileObjects.push(fileObject);
     });
     console.log(fileObjects);
