@@ -1,10 +1,17 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
 var mongo = require('mongodb');
 var multer = require('multer');
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/db";
+//CONSTANTS
+const url = "mongodb://localhost:27017/db";
+const imageDirectoryPath = __dirname + '/uploads/images/';
+//
+//Variables
+let fileObjects = [];
+//
 var storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, 'uploads')
@@ -32,6 +39,21 @@ app.use(function(req, res, next){
     
         // Pass to next layer of middleware
         next();
+});
+
+fs.readdir(imageDirectoryPath, function(err, files){
+    if(err){
+        console.log("Some error");
+    }
+    files.forEach(function(file){
+        var fileObject = [
+            {
+                original: "http://localhost:8081/images/" + file
+            }
+        ]
+        fileObjects.push(fileObject);
+    });
+    console.log(fileObjects);
 });
 let settings = [
     {
@@ -106,8 +128,8 @@ app.post('/fishing', (req, res) => {
     res.send(fish);
 })
 */
-app.get('/images', (req, res) => {
-    res.sendFile(__dirname + '/uploads/images/test.jpg');
+app.get('/images/:file', (req, res) => {
+    res.sendFile(__dirname + '/uploads/images/' + req.params.file);
 });
 
 app.post('/images', (req, res) => {
