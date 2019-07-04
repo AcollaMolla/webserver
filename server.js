@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 var mongo = require('mongodb');
+var multer = require('multer');
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/db";
@@ -41,7 +42,7 @@ app.get('/', (req,res) => {
     res.send("hej");
 });
 
-app.get('/settings/:id', (req, res) => {
+/*app.get('/settings/:id', (req, res) => {
     getFromDb("userSettings", req.params.id, function(callback){
         console.log(callback);
         res.send(callback);
@@ -95,9 +96,13 @@ app.post('/fishing', (req, res) => {
     postToDb(fish, "fishing");
     res.send(fish);
 })
-
+*/
 app.get('/images', (req, res) => {
     res.send(images);
+});
+
+app.post('/images', (req, res) => {
+    console.log("Got request: " + req.files);
 });
 
 var server = app.listen(8081, function () {
