@@ -1,13 +1,21 @@
 const express = require('express');
 const app = express();
 var mongo = require('mongodb');
-const fileUpload = require('express-fileupload');
+var multer = require('multer');
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/db";
+var storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, 'uploads')
+    },
+    filename: function(req, file, cb){
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+var upload = multer({storage: storage }).single('file');
 
 app.use(express.json());
-app.use(fileUpload);
 app.use(function(req, res, next){
         // Website you wish to allow to connect
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
