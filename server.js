@@ -128,6 +128,10 @@ app.post('/fishing', (req, res) => {
     res.send(fish);
 })
 */
+app.get('/images', (req, res) => {
+    res.send(fileObjects);
+});
+
 app.get('/images/:file', (req, res) => {
     res.sendFile(__dirname + '/uploads/images/' + req.params.file);
 });
