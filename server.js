@@ -143,6 +143,10 @@ app.post('/images', (req, res) => {
         else if(err){
             return res.status(500).json(err)
         }
+        let fileObject = {
+            original: "http://localhost:8081/images/" + req.file.filename
+        }
+        fileObjects.push(fileObject);
         return res.status(200).send(req.file)
     })
 });
