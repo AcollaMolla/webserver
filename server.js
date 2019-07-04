@@ -12,15 +12,15 @@ const imageDirectoryPath = __dirname + '/uploads/images/';
 //Variables
 let fileObjects = [];
 //
-var storage = multer.diskStorage({
+var imageStorage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, 'uploads')
+        cb(null, 'uploads/images')
     },
     filename: function(req, file, cb){
         cb(null, Date.now() + '-' + file.originalname)
     }
 })
-var upload = multer({storage: storage }).single('file');
+var imageUpload = multer({storage: imageStorage }).single('file');
 
 app.use(express.json());
 app.use(function(req, res, next){
@@ -136,7 +136,7 @@ app.get('/images/:file', (req, res) => {
 });
 
 app.post('/images', (req, res) => {
-    upload(req, res, function(err){
+    imageUpload(req, res, function(err){
         if(err instanceof multer.MulterError){
             return res.status(500).json(err)
         }
