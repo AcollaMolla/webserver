@@ -47,7 +47,8 @@ fs.readdir(imageDirectoryPath, function(err, files){
     files.forEach(function(file){
         var fileObject =
             {
-                original: "http://localhost:8081/images/" + file
+                original: "http://localhost:8081/images/" + file,
+                uploadDate: file.substring(0,file.indexOf('-'))
             }
         fileObjects.push(fileObject);
     });
@@ -143,7 +144,8 @@ app.post('/images', (req, res) => {
             return res.status(500).json(err)
         }
         let fileObject = {
-            original: "http://localhost:8081/images/" + req.file.filename
+            original: "http://localhost:8081/images/" + req.file.filename,
+            uploadDate: Date.now()
         }
         fileObjects.push(fileObject);
         return res.status(200).send(req.file)
