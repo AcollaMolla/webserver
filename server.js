@@ -11,7 +11,6 @@ const imageDirectoryPath = __dirname + '/uploads/images/';
 //
 //Variables
 let fileObjects = [];
-//
 var imageStorage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, 'uploads/images')
@@ -21,7 +20,7 @@ var imageStorage = multer.diskStorage({
     }
 })
 var imageUpload = multer({storage: imageStorage }).single('file');
-
+//
 app.use(express.json());
 app.use(function(req, res, next){
         // Website you wish to allow to connect
