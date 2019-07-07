@@ -17,6 +17,9 @@ var imageStorage = multer.diskStorage({
     },
     filename: function(req, file, cb){
         cb(null, Date.now() + '-' + file.originalname)
+    },
+    tags: function(req, file, cb){
+        cb(null, file.tags);
     }
 })
 var imageUpload = multer({storage: imageStorage }).single('file');
@@ -145,7 +148,8 @@ app.post('/images', (req, res) => {
         }
         let fileObject = {
             original: "http://localhost:8081/images/" + req.file.filename,
-            uploadDate: Date.now()
+            uploadDate: Date.now(),
+            tags: req.file.tags
         }
         fileObjects.push(fileObject);
         return res.status(200).send(req.file)
