@@ -153,7 +153,8 @@ app.post('/images', (req, res) => {
             tags: req.body.tags
         }
         console.log(fileObject);
-        fileObjects.push(fileObject);    
+        fileObjects.push(fileObject);
+        postToDb(fileObject, "images");    
         console.log(fileObjects);
         return res.status(200).send(req.file)
     })
