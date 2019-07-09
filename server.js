@@ -51,7 +51,8 @@ fs.readdir(imageDirectoryPath, function(err, files){
         var fileObject =
             {
                 original: "http://localhost:8081/images/" + file,
-                uploadDate: file.substring(0,file.indexOf('-'))
+                uploadDate: file.substring(0,file.indexOf('-')),
+                tags: null,
             }
         fileObjects.push(fileObject);
     });
@@ -140,7 +141,6 @@ app.get('/images/:file', (req, res) => {
 
 app.post('/images', (req, res) => {
     imageUpload(req, res, function(err){
-        console.log("TAGS" + req.body.extra);
         if(err instanceof multer.MulterError){
             return res.status(500).json(err)
         }
@@ -150,10 +150,14 @@ app.post('/images', (req, res) => {
         let fileObject = {
             original: "http://localhost:8081/images/" + req.file.filename,
             uploadDate: Date.now(),
+            tags: req.body.tags
         }
-        fileObjects.push(fileObject);
+        console.log(fileObject);
+        fileObjects.push(fileObject);    
+        console.log(fileObjects);
         return res.status(200).send(req.file)
     })
+
 });
 
 var server = app.listen(8081, function () {
