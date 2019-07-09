@@ -22,7 +22,16 @@ var imageStorage = multer.diskStorage({
         cb(null, file.tags);
     }
 })
+var fishStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, 'uploads/fishing')
+    },
+    filename: function(req, file, cb){
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
 var imageUpload = multer({storage: imageStorage }).single('file');
+var fishUpload = multer({storage: fishStorage}).single('file'); //Consider making this mulitple files instead of 'single'
 //
 app.use(express.json());
 app.use(function(req, res, next){
@@ -61,7 +70,7 @@ app.get('/', (req,res) => {
     res.send("hej");
 });
 
-/*app.get('/settings/:id', (req, res) => {
+app.get('/settings/:id', (req, res) => {
     getFromDb("userSettings", req.params.id, function(callback){
         console.log(callback);
         res.send(callback);
@@ -115,7 +124,7 @@ app.post('/fishing', (req, res) => {
     postToDb(fish, "fishing");
     res.send(fish);
 })
-*/
+
 app.get('/images', (req, res) => {
     res.send(fileObjects);
 });
