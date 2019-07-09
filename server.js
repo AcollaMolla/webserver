@@ -140,6 +140,7 @@ app.get('/images/:file', (req, res) => {
 
 app.post('/images', (req, res) => {
     imageUpload(req, res, function(err){
+        console.log("TAGS" + req.body.extra);
         if(err instanceof multer.MulterError){
             return res.status(500).json(err)
         }
@@ -149,7 +150,6 @@ app.post('/images', (req, res) => {
         let fileObject = {
             original: "http://localhost:8081/images/" + req.file.filename,
             uploadDate: Date.now(),
-            tags: req.file.tags
         }
         fileObjects.push(fileObject);
         return res.status(200).send(req.file)
