@@ -42,8 +42,9 @@ app.use(function(req, res, next){
         // Pass to next layer of middleware
         next();
 });
+loadGalleryImages();
 
-fs.readdir(imageDirectoryPath, function(err, files){
+/*fs.readdir(imageDirectoryPath, function(err, files){
     if(err){
         console.log("Some error");
     }
@@ -57,7 +58,7 @@ fs.readdir(imageDirectoryPath, function(err, files){
         fileObjects.push(fileObject);
     });
     console.log("[#]Finish reading images from disk");
-});
+});*/
 let settings = [
     {
         "backgroundColor" : "#282c34",
@@ -224,3 +225,9 @@ function getFromDb(collection, param, callback){
         db.close();
      });
  }
+
+ function loadGalleryImages(){
+    getFromDb("images", null, function(callback){
+        fileObjects = callback;
+    });
+}
