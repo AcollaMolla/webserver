@@ -114,15 +114,30 @@ app.get('/fishing', (req, res) => {
     })
 });
 
+app.get('/fishing/:fish', (req, res) => {
+    res.send("fisk");
+})
+
 app.post('/fishing', (req, res) => {
+    fishUpload(req, res, function(err){
+        if(err instanceof multer.MulterError){
+            return res.status(500).json(err)
+        }
+        else if(err){
+            return res.status(500).json(err)
+        }
     const fish = {
         species: req.body.species,
         catchDate: req.body.catchDate,
         weight: req.body.weight,
-        length: req.body.length
+        length: req.body.length,
+        original: "http://localhost:8081/fishing/" + req.file.filename
     }
     postToDb(fish, "fishing");
     res.send(fish);
+
+    })
+    /**/
 })
 
 app.get('/images', (req, res) => {
