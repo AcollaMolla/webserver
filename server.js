@@ -55,7 +55,7 @@ fs.readdir(imageDirectoryPath, function(err, files){
             }
         fileObjects.push(fileObject);
     });
-    console.log(fileObjects);
+    console.log("[#]Finish reading images from disk");
 });
 let settings = [
     {
