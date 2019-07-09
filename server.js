@@ -43,22 +43,6 @@ app.use(function(req, res, next){
         next();
 });
 loadGalleryImages();
-
-/*fs.readdir(imageDirectoryPath, function(err, files){
-    if(err){
-        console.log("Some error");
-    }
-    files.forEach(function(file){
-        var fileObject =
-            {
-                original: "http://localhost:8081/images/" + file,
-                uploadDate: file.substring(0,file.indexOf('-')),
-                tags: null,
-            }
-        fileObjects.push(fileObject);
-    });
-    console.log("[#]Finish reading images from disk");
-});*/
 let settings = [
     {
         "backgroundColor" : "#282c34",
