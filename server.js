@@ -60,12 +60,6 @@ let settings = [
     }
 ]
 
-const images = [
-        {original: 'http://lorempixel.com/1000/600/nature/1/'},
-        {original: 'http://lorempixel.com/1000/600/nature/2/'},
-        {original: 'http://lorempixel.com/1000/600/nature/3/'}
-]
-
 app.get('/', (req,res) => {
     res.send("hej");
 });
@@ -159,6 +153,7 @@ app.post('/images', (req, res) => {
         let fileObject = {
             original: "http://localhost:8081/images/" + req.file.filename,
             uploadDate: Date.now(),
+            description: req.body.description,
             tags: req.body.tags
         }
         console.log(fileObject);
