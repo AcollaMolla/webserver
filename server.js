@@ -72,16 +72,16 @@ app.get('/settings/:id', (req, res) => {
 });
 
 app.post('/settings/:id', (req, res) => {
+    console.log("här nu" + req.body.backgroundColor);
     settings = [
         {
             backgroundColor : req.body.backgroundColor,
             isImage: req.body.isImage,
-            url: req.body.url
+            url: req.body.url,
+            textColor: req.body.textColor
         }
     ]
-    console.log("ID = " + req.params.id);
     updateDbRecord("userSettings", req.params.id, settings, function(callback){
-        console.log(callback);
         res.send(callback);
     });
 });
@@ -182,7 +182,6 @@ function postToDb(record, collection){
  }
 
 function getFromDb(collection, param, callback){
-    console.log("Param = " + param);
     if(param === null || typeof(param) === 'undefined'){
         MongoClient.connect(url, function(err, db){
             var dbo = db.db("db");
@@ -208,8 +207,6 @@ function getFromDb(collection, param, callback){
  }
 
  function updateDbRecord(collection, param, record, callback){
-     console.log("Param = " + param);
-     console.log("Bg color: " + record[0].backgroundColor);
      MongoClient.connect(url, function(err, db){
          var dbo = db.db("db");
          dbo.collection(collection).updateOne(
@@ -218,7 +215,8 @@ function getFromDb(collection, param, callback){
                 $set: {
                         backgroundColor : record[0].backgroundColor,
                         isImage : record[0].isImage,
-                        url : record[0].url
+                        url : record[0].url,
+                        textColor: record[0].textColor
                       }
             },
             {
