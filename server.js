@@ -109,7 +109,7 @@ app.get('/fishing', (req, res) => {
 });
 
 app.get('/fishing/:fish', (req, res) => {
-    res.send("fisk");
+    res.sendFile(__dirname + '/uploads/fishing/' + req.params.fish);
 })
 
 app.post('/fishing', (req, res) => {
