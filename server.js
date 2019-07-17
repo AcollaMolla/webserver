@@ -125,13 +125,12 @@ app.post('/fishing', (req, res) => {
         catchDate: req.body.catchDate,
         weight: req.body.weight,
         length: req.body.length,
+        description: req.body.description,
         original: "http://localhost:8081/fishing/" + req.file.filename
     }
     postToDb(fish, "fishing");
     res.send(fish);
-
     })
-    /**/
 })
 
 app.get('/images', (req, res) => {
