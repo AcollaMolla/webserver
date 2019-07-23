@@ -108,7 +108,9 @@ app.get('/fishing', (req, res) => {
 });
 
 app.get('/fishing/:fish', (req, res) => {
-    res.sendFile(__dirname + '/uploads/fishing/' + req.params.fish);
+    if(fs.existsSync(__dirname + '/uploads/fishing/' + req.params.fish))res.sendFile(__dirname + '/uploads/fishing/' + req.params.fish);
+    else
+        res.sendFile(__dirname + '/uploads/fishing/not_found.jpg')
 })
 
 app.post('/fishing', (req, res) => {
