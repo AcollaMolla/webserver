@@ -72,8 +72,7 @@ app.get('/settings/:id', (req, res) => {
 });
 
 app.post('/settings/:id', (req, res) => {
-    console.log("här nu" + req.body.backgroundColor);
-    settings = [
+    let settings = [
         {
             backgroundColor : req.body.backgroundColor,
             isImage: req.body.isImage,
@@ -121,6 +120,7 @@ app.post('/fishing', (req, res) => {
             return res.status(500).json(err)
         }
     const fish = {
+        _id: Date.now(),
         species: req.body.species,
         catchDate: req.body.catchDate,
         weight: req.body.weight,
