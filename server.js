@@ -152,10 +152,12 @@ app.post('/images', (req, res) => {
             return res.status(500).json(err)
         }
         let fileObject = {
-            original: "http://localhost:8081/images/" + req.file.filename,
+            src: "http://localhost:8081/images/" + req.file.filename,
+            thumbnail: "http://localhost:8081/images/" + req.file.filename,
+            thumbnailWidth: 300,
+            thumbnailHeight: 300,
             uploadDate: Date.now(),
             description: req.body.description,
-            tags: req.body.tags
         }
         console.log(fileObject);
         fileObjects.push(fileObject);
